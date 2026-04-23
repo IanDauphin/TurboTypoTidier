@@ -22,6 +22,9 @@
 .Rproj.user/
 .Rprofile
 
+# macOS filesystem noise
+.DS_Store
+
 # produced vignettes
 vignettes/*.html
 vignettes/*.pdf
