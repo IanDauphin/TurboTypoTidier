@@ -289,6 +289,27 @@ tabPanel(
       "
     ),
     
+    div(
+    style = "margin-top: 75px;",
+    
+    h3("GitHub"),
+    p("Click the image to visit the GitHub repository for this project."),
+    div(
+      style = "text-align: left;
+               gap: 1rem;
+               justify-content: flex-end;
+               ",
+      tags$a(
+        href = "https://github.com/IanDauphin/TurboTypoTidier",
+        target = "_blank",
+        tags$img(
+          src = "GitHub_Lockup_Black.svg",
+          alt = "GitHub repository screenshot",
+          style = "max-width: 100%; height: auto; border-radius: 12px;"
+        )
+      )
+    )
+    ),
       
     div(
       style = "display: flex;
@@ -298,7 +319,7 @@ tabPanel(
       gap: 1rem;
       justify-content: flex-end;
       margin-top: auto;
-      min-height: 500px;",
+      min-height: 300px;",
       
       tags$p(
         tags$strong(
