@@ -22,6 +22,11 @@
 .Rproj.user/
 .Rprofile
 
+# renv local library
+renv/library/
+renv/staging/
+renv/python/
+
 # macOS filesystem noise
 .DS_Store
 
