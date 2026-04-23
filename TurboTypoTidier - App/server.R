@@ -6,6 +6,7 @@ library(shinyjs)
 library(shinycssloaders)
 library(readxl)
 library(writexl)
+library(rmarkdown)
 
 
 read_uploaded_table <- function(path, name) {
