@@ -307,8 +307,7 @@ function(input, output, session) {
       stopword_replacement = input$stopword_replacement,
       stopword_list = stopwords,
       designated_stopword = input$designated_stopword,
-      keep_uncorrected = input$keep_uncorrected,
-      keep_typocorrectiondata = input$keep_typocorrectiondata
+      keep_uncorrected = input$keep_uncorrected
     )
   })
   
