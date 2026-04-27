@@ -48,8 +48,7 @@ select_typocorrectiondata <- function(df, keep_typocorrectiondata = FALSE) {
 
 by_position_lv <- function(stimuli, 
                            responses, 
-                           distance_method = "lv", 
-                           autocorrect_tolerance, 
+                           distance_method = "lv",  
                            designated_stopword = "skip"){
   
   
