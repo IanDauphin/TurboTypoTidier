@@ -373,12 +373,13 @@ tabPanel(
           <a href='https://www.researchgate.net/profile/Ian-Dauphinee' target='_blank'>ResearchGate Profile</a>
         </p>
         <p>
-          <img src='LinkedIn_Pic.png' alt='LinkedIn Pic' style='width: 30px; height: auto; margin-right: 10px;'>
-          <a href='https://www.linkedin.com/in/ian-dauphinee-4b0987253/' target='_blank'>LinkedIn Profile</a>
+          <img src='linkedIn_Pic.png' alt='linkedIn Pic' style='width: 30px; height: auto; margin-right: 10px;'>
+          <a href='https://www.linkedin.com/in/ian-dauphinee-m-a-4b0987253' target='_blank'>LinkedIn Profile</a>
         </p>
         <br>
         <p><strong><span style='color: #1E90FF;'>Sho Ishiguro, PhD:</span></strong></p>
-        <img src='Sho_Pic.jpeg' alt='Sho Ishiguro' style='width: 100px; height: 100px;'><br>
+        <img src='Sho_Pic.jpeg' alt='Sho Ishiguro' style='width: 100px; height: 100px;'>
+        <br>
         <p>
         <br>
         <img src='Mailbox_Pic.png' alt='Mailbox Pic' style='width: 30px; height: auto; margin-right: 10px;'>sho.ishiguro@umoncton.ca
@@ -387,8 +388,20 @@ tabPanel(
           <a href='https://www.researchgate.net/scientific-contributions/Sho-Ishiguro-2145459372' target='_blank'>ResearchGate Profile</a>
         </p>
         <p>
-          <img src='LinkedIn_Pic.png' alt='LinkedIn Pic' style='width: 30px; height: auto; margin-right: 10px;'>
+          <img src='linkedIn_Pic.png' alt='linkedIn Pic' style='width: 30px; height: auto; margin-right: 10px;'>
           <a href='https://www.linkedin.com/in/sho-ishiguro-a29b06311/' target='_blank'>LinkedIn Profile</a>
+        </p>
+        <br>
+        <p>
+        <a href='https://jeansaintaubin.ca/' target='_blank'><strong><span style='color: #1E90FF;'>Jean Saint-Aubin, PhD:</span></strong></a>
+        </p>
+        <img src='Jean_Pic.jpg' alt='Jean Saint-Aubin' style='width: 100px; height: 100px;'>
+        <p>
+        <br>
+        <img src='Mailbox_Pic.png' alt='Mailbox Pic' style='width: 30px; height: auto; margin-right: 10px;'>jean.saint-aubin@umoncton.ca
+        <p>
+          <img src='Researchgate_Pic.png' alt='Researchgate Pic' style='width: 30px; height: auto; margin-right: 10px;'>
+          <a href='https://www.researchgate.net/profile/Jean-Saint-Aubin' target='_blank'>ResearchGate Profile</a>
         </p>
         <br>
       </div>"
