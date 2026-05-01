@@ -115,7 +115,7 @@ navbarPage(
     useShinyjs(),
     
     bslib::page_sidebar(
-      title = tags$h3("Typo Checker for Verbal Data"),
+      title = tags$h3("A Shiny App for Correcting Verbal Response Data"),
       sidebar = bslib::sidebar(
         width = 360,
         
@@ -350,7 +350,53 @@ tabPanel(
 
 
 
-# Fourth Tab : Contact
+# Fourth Tab : Citation
+tabPanel(
+  "How to Cite",
+  
+  h3("How to cite TurboTypoTidier"),
+  
+  p("To cite this Shiny app, please use:"),
+  
+  tags$blockquote(
+    id = "citation_text",
+    HTML(
+      "Dauphinee, I., Ishiguro, S., Saint-Aubin, J. (2026). <em>TurboTypoTidier: A Shiny App for Correcting Verbal Response Data</em> (Version 1.0.0). Shiny web application. https://iandauphinee.shinyapps.io/TurboTypoTidier/"
+    )
+  ),
+  
+  actionButton(
+    "copy_citation",
+    "Copy Citation",
+    icon = icon("copy")
+  ),
+  
+  tags$script(HTML("
+    $(document).on('click', '#copy_citation', function() {
+      var text = $('#citation_text').text().trim();
+
+      var temp = $('<textarea>');
+      $('body').append(temp);
+      temp.val(text).select();
+
+      try {
+        document.execCommand('copy');
+        $('#copy_citation').html('<i class=\"fa fa-check\"></i> Copied!');
+      } catch (err) {
+        $('#copy_citation').text('Copy failed');
+      }
+
+      temp.remove();
+
+      setTimeout(function() {
+        $('#copy_citation').html('<i class=\"fa fa-copy\"></i> Copy Citation');
+      }, 2000);
+    });
+  "))
+),
+
+
+# Fifth Tab : Contact
 tabPanel(
   "Contact",
   fluidPage(
