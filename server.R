@@ -45,6 +45,17 @@ select_typocorrectiondata <- function(df, keep_typocorrectiondata = FALSE) {
   }
 }
 
+# Read default stopword list
+default_stopwords <- read.csv("Default_Stopword_List.csv") %>% dplyr::pull(Stopword)
+
+# One set of DT options used everywhere (consistent behavior)
+dt_opts <- list(
+  scrollX = TRUE,
+  dom = '<"dt-top d-flex justify-content-between align-items-center"lf>rtip',
+  lengthMenu = c(5, 10, 25, 50, 100),
+  pageLength = 10
+)
+
 
 by_position_lv <- function(stimuli, 
                            responses, 
@@ -209,10 +220,9 @@ spell_correction <- function(data,
   }
   
   # Distance Calculation
-  all_result <- NULL
+  all_rows <- vector("list", nrow(df))
   
-  
-  for(i in 1:nrow(df)){
+  for(i in seq_len(nrow(df))){
     
     row_df <- df[i,]
     
@@ -226,7 +236,6 @@ spell_correction <- function(data,
       as.matrix() %>% 
       as.character()
     
-    # Calculate Distance by position (BP) then within trial (WT)
     BP <- by_position_lv(stimuli = row_stimuli, 
                          responses = row_responses,
                          distance_method = distance_method,
@@ -242,21 +251,19 @@ spell_correction <- function(data,
     
     row_result <- cbind(row_df, rbind(BP), rbind(WT))
     
-    # This needs to stay in this exact order
     colnames(row_result) <- c(
       paste0("Prep.", colnames(row_df)),
       paste0("Pos.Dist.", 1:length(row_stimuli)),
-      paste0("Corrected.", response_name, "." , 1:length(row_stimuli)),
+      paste0("Corrected.", response_name, ".", 1:length(row_stimuli)),
       paste0("Trial.Dist.", 1:length(row_stimuli)),
       paste0("Multiple.Match.", 1:length(row_stimuli))
-      )
-
+    )
     
-    all_result <- rbind(all_result, row_result)
+    all_rows[[i]] <- row_result  # store after renaming
   }
   
+  all_result <- dplyr::bind_rows(all_rows)  # outside the loop
   all_result
-  
 }
 
 function(input, output, session) {
@@ -266,28 +273,21 @@ function(input, output, session) {
     read_uploaded_table(input$originalfile$datapath, input$originalfile$name)
   })
   
-  # One set of DT options used everywhere (consistent behavior)
-  dt_opts <- list(
-    scrollX = TRUE,
-    dom = '<"dt-top d-flex justify-content-between align-items-center"lf>rtip',
-    lengthMenu = c(5, 10, 25, 50, 100),
-    pageLength = 10
-  )
   
   has_run <- reactiveVal(FALSE)
   
-  check_execution <- reactive({
-    req(has_run())
-    req(input$originalfile)
-    req(input$stimulus_name, input$response_name)
+  result_data <- reactiveVal(NULL)
+  
+  observeEvent(input$execute_typo_error_check, {
+    has_run(TRUE)
     
+    # compute once, store once
     tol <- as.integer(input$autocorrect_tolerance)
     stopwords <- character(0)
     
     if (input$stopword_replacement %in% c("replace", "remove")) {
       if (input$dataSource == "default") {
-        sw_df_default <- read.csv("Default_Stopword_List.csv")
-        stopwords <- sw_df_default %>% dplyr::pull(Stopword)
+        stopwords <- default_stopwords
       } else if (input$dataSource == "upload") {
         req(input$stopwordfile)
         sw_df <- read_uploaded_table(input$stopwordfile$datapath, input$stopwordfile$name)
@@ -295,7 +295,7 @@ function(input, output, session) {
       }
     }
     
-    spell_correction(
+    result_data(spell_correction(
       data = data(),
       stimulus_name = input$stimulus_name,
       response_name = input$response_name,
@@ -307,20 +307,10 @@ function(input, output, session) {
       stopword_list = stopwords,
       designated_stopword = input$designated_stopword,
       keep_uncorrected = input$keep_uncorrected
-    )
-  })
-  
-  
-  observeEvent(input$execute_typo_error_check, {
-    
-    has_run(TRUE)
+    ))
     
     nav_select("data_viewer", "Corrected Data")
-    
-    shinyjs::delay(100, {
-      shinyjs::runjs("window.scrollTo({top: 0, behavior: 'smooth'})")
-    })
-    
+    shinyjs::delay(100, shinyjs::runjs("window.scrollTo({top: 0, behavior: 'smooth'})"))
   })
   
   
@@ -339,7 +329,7 @@ function(input, output, session) {
   output$preprocessed <- DT::renderDT({
     
     req(has_run())
-    res <- check_execution()
+    res <- result_data()
     
     DT::datatable(
       res %>% dplyr::select(starts_with("Prep.")),
@@ -352,7 +342,7 @@ function(input, output, session) {
   output$checked <- DT::renderDT({
     
     req(has_run())
-    res <- check_execution()
+    res <- result_data()
     
     checked_data <- select_typocorrectiondata(
       res,
@@ -391,7 +381,7 @@ function(input, output, session) {
   content = function(file) {
     
     req(has_run())
-    res <- check_execution()
+    res <- result_data()
     
     out_df <- cbind(
       data(),
